@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "753635010132",
+    "project_id": "paynstay-654b7",
+    "storage_bucket": "paynstay-654b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753635010132:android:a9624597d5ff36bf4cafc1",
+        "android_client_info": {
+          "package_name": "com.example.pay_n_stack_web_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753635010132-1u0kttn0eqvb53hgbj6en1s7233vud4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi2lYDdVnTHJbq7BMDM7edRuFS6aolxUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753635010132-1u0kttn0eqvb53hgbj6en1s7233vud4m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753635010132:android:3687795aed767aba4cafc1",
+        "android_client_info": {
+          "package_name": "com.example.pay_n_stay_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753635010132-1u0kttn0eqvb53hgbj6en1s7233vud4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi2lYDdVnTHJbq7BMDM7edRuFS6aolxUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753635010132-1u0kttn0eqvb53hgbj6en1s7233vud4m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
