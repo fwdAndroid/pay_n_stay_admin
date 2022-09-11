@@ -12,15 +12,15 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           'Home',
           style: TextStyle(
-              color: black, fontWeight: FontWeight.w600, fontSize: 16),
+              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
         ),
         actions: [
           IconButton(
@@ -30,7 +30,7 @@ class Home extends StatelessWidget {
               },
               icon: Icon(
                 Icons.add,
-                color: black,
+                color: Colors.black,
               )),
           IconButton(
               onPressed: () {
@@ -39,7 +39,7 @@ class Home extends StatelessWidget {
               },
               icon: Icon(
                 Icons.edit,
-                color: black,
+                color: Colors.black,
               )),
           IconButton(
               onPressed: () {
@@ -57,7 +57,7 @@ class Home extends StatelessWidget {
               },
               icon: Icon(
                 Icons.logout,
-                color: black,
+                color: Colors.black,
               )),
         ],
       ),
@@ -76,16 +76,18 @@ class Home extends StatelessWidget {
                       border: InputBorder.none,
                       prefixIcon: Icon(
                         Icons.search,
-                        color: grey,
+                        color: Colors.grey,
                       ),
                       hintText: 'Search',
-                      hintStyle: TextStyle(color: grey)),
+                      hintStyle: TextStyle(color: Colors.grey)),
                 ),
               ),
               Text(
                 'Sort',
                 style: TextStyle(
-                    color: grey, fontSize: 14, fontWeight: FontWeight.w400),
+                    color: Colors.grey,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
               )
             ],
           ),
@@ -129,7 +131,7 @@ class Home extends StatelessWidget {
                             )),
                         Text(
                           'Chicken Burger\n\$ 450.00',
-                          style: TextStyle(fontSize: 12, color: black),
+                          style: TextStyle(fontSize: 12, color: Colors.black),
                         )
                       ],
                     ),

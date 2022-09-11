@@ -32,9 +32,12 @@ dependencies:
   dotted_border: ^2.0.0+2
   firebase_auth: ^3.8.0
   firebase_core: ^1.22.0
+  firebase_storage: ^10.3.8
   flutter:
     sdk: flutter
+  image_picker: ^0.8.5+3
   provider: ^6.0.3
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_lints: ^2.0.0

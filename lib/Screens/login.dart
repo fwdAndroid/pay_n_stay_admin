@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pay_n_stay_admin/Screens/home.dart';
+import 'package:pay_n_stay_admin/Utils/utils.dart';
+import 'package:pay_n_stay_admin/auth/resturantregister.dart';
+import 'package:pay_n_stay_admin/resources/auth_merhods.dart';
+import 'package:pay_n_stay_admin/widgets/text_form_field.dart';
 
 class LoginAdmin extends StatefulWidget {
   const LoginAdmin({Key? key}) : super(key: key);
@@ -9,6 +13,18 @@ class LoginAdmin extends StatefulWidget {
 }
 
 class _LoginAdminState extends State<LoginAdmin> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailController.clear();
+    passController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,51 +48,75 @@ class _LoginAdminState extends State<LoginAdmin> {
                   ),
 
                   SizedBox(height: 40),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email_outlined),
-                        labelText: 'Email'),
+                  TextFormInputField(
+                    hintText: 'Enter youe email',
+                    textInputType: TextInputType.emailAddress,
+                    controller: emailController,
                   ),
                   SizedBox(height: 40),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        suffix: Text(
-                          'Show',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        // 'Show',
-                        suffixStyle:
-                            TextStyle(color: Colors.blue, fontSize: 20),
-                        // style: TextStyle(color: Colors.blue, fontSize: 20),
-                        labelText: 'Password'),
+                  TextFormInputField(
+                    hintText: 'Enter youe password',
+                    textInputType: TextInputType.visiblePassword,
+                    controller: passController,
+                    isPass: true,
                   ),
                   SizedBox(height: 24),
 
                   // SizedBox(height: 60),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (builder) => Home()));
-                      },
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w700),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(300, 60),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        primary: Colors.black,
-                      )),
+                  InkWell(
+                    onTap: loginUser,
+                    child: _isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container(
+                            height: 60,
+                            child: Text('Login'),
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(horizontal: 22),
+                            decoration: ShapeDecoration(
+                                color: Colors.blue,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4)))),
+                          ),
+                  ),
                 ],
               ),
-            )
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => ResturantRegistration()));
+                },
+                child: Text("Register Your Resturant"))
           ],
         ),
       ),
     );
     ;
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String rse = await AuthMethods().loginUpUser(
+      email: emailController.text,
+      pass: passController.text,
+    );
+
+    print(rse);
+    setState(() {
+      _isLoading = false;
+    });
+    if (rse == 'sucess') {
+      Navigator.push(context, MaterialPageRoute(builder: (builder) => Home()));
+    } else {
+      showSnakBar(rse, context);
+    }
   }
 }
