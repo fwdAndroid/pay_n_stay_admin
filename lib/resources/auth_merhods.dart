@@ -9,11 +9,11 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-//Get Users Details
+//Get Resturant Details
   Future<UserModel> getUserDetails() async {
     User currentUser = _auth.currentUser!;
     DocumentSnapshot documentSnapshot =
-        await firebaseFirestore.collection('users').doc(currentUser.uid).get();
+        await firebaseFirestore.collection('resturants').doc(currentUser.uid).get();
     return UserModel.fromSnap(documentSnapshot);
   }
 
@@ -42,7 +42,7 @@ class AuthMethods {
             loc: loc,
             photoURL: photoURL);
         await firebaseFirestore
-            .collection('users')
+            .collection('resturants')
             .doc(cred.user!.uid)
             .set(userModel.toJson());
         res = 'sucess';

@@ -36,7 +36,7 @@ class _ResturantRegistrationState extends State<ResturantRegistration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Container(
@@ -44,6 +44,7 @@ class _ResturantRegistrationState extends State<ResturantRegistration> {
           padding: EdgeInsets.symmetric(horizontal: 32),
           width: double.infinity,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Stack(
