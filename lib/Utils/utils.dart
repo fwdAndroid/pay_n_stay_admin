@@ -15,7 +15,35 @@ pickImage(ImageSource source) async {
   }
   print('No Image Selected');
 }
+ void showDialogBox(BuildContext context){
+    showDialog(
+         barrierDismissible: false,
+         context: context, builder: (_){
 
+       return WillPopScope(
+           onWillPop: ()=>Future.value(false),
+         child: AlertDialog(
+           //alignment: Alignment.center,
+           insetPadding: EdgeInsets.zero,
+           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+           title: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             crossAxisAlignment: CrossAxisAlignment.center,
+             children: [
+               CircularProgressIndicator(color: Colors.black,),
+               SizedBox(height: 10,),
+               Center(child: Text( "Please wait...")),
+             ],
+           ),
+
+         ),
+       );
+     });
+     }
+   void closeDialog(BuildContext context)
+  {
+    Navigator.pop(context);
+  }
 
 /// SnakBar Code
 showSnakBar(String contexts,BuildContext context){
