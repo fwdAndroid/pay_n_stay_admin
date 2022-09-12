@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pay_n_stay_admin/Screens/add_stock.dart';
 import 'package:pay_n_stay_admin/Screens/login.dart';
@@ -30,6 +31,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    var Size = MediaQuery.of(context).size;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
@@ -150,85 +153,352 @@ class _HomeState extends State<Home> {
               )),
         ],
       ),
-      body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      body: ListView(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: InkWell(
+              onTap: () {
+                showDialogBox(context);
+              },
+              child: Text(
+                'Burgers',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          // GestureDetector(
+          //   //  Show All Categories Product
+          //   onTap: () {
+          //     // Navigator.push(
+          //     //     context,
+          //     //     MaterialPageRoute(
+          //     //         builder: (builder) => ShowAll(
+          //     //               cetagory: 'laptop',
+          //     //             )));
+          //   },
+          //   child: Container(
+          //     margin: EdgeInsets.symmetric(horizontal: 20),
+          //     child: Text(
+          //       'Show all',
+          //       style: TextStyle(
+          //           color: Colors.black,
+          //           fontSize: 13,
+          //           fontWeight: FontWeight.bold),
+          //     ),
+          //   ),
+          // ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: SizedBox(
+              height: 228,
+              width: MediaQuery.of(context).size.width,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('foodcategory')
+                    .where('cetagory', isEqualTo: 'burgers')
+                    .where("isActive", isEqualTo: true)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ));
+                  } else if (snapshot.data!.size == 0) {
+                    return Center(child: Text("No Burgers Item is included"));
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Error Accurred"));
+                  } else if (snapshot.hasData) {
+                    return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot ds = snapshot.data!.docs[index];
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            color: Colors.white,
+                            elevation: 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  //  margin: EdgeInsets.only(bottom: 80),
+                                  height: Size.height * 0.12,
+                                  width: Size.width * 0.5,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                          image: NetworkImage(ds['imageUrl'],
+                                              scale: 8),
+                                          fit: BoxFit.cover)),
+                                  child: GestureDetector(
+                                    /// DEscription Detail Of Products
+                                    onTap: () {
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (builder) =>
+                                      //             ProductOverview(
+                                      //               cetagory: ds['cetagory'],
+                                      //               description:
+                                      //                   ds['description'],
+                                      //               imageUrl: ds['imageUrl'],
+                                      //               price: ds['price'],
+                                      //               title: ds['title'],
+                                      //               type: ds['subcetagory'],
+                                      //             )));
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: 7, bottom: 2, left: 10),
+                                  child: Text(
+                                    ds['title'] + " " + ds['cetagory'],
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                  ),
+                                  child: Text(
+                                    ds['subcetagory'],
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 13),
+                                  ),
+                                ),
+
+                                ////EDit Producrts
+                                GestureDetector(
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (builder) => EditProduct(
+                                    //               docId: ds.id,
+                                    //               cetagory: ds['cetagory'],
+                                    //               description:
+                                    //                   ds['description'],
+                                    //               imageUrl: ds['imageUrl'],
+                                    //               price: ds['price'],
+                                    //               title: ds['title'],
+                                    //               type: ds['subcetagory'],
+                                    //             )));
+                                  },
+                                  child: Container(
+                                      height: 20,
+                                      width: 20,
+                                      margin: const EdgeInsets.only(
+                                          left: 175, bottom: 5),
+                                      child: Icon((Icons.edit))),
+                                )
+                              ],
+                            ),
+                          );
+                        });
+                  }
+                  return Center(
+                      child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ));
+                },
+              ),
+            ),
+          ),
+          // Container(
+          //   margin: EdgeInsets.symmetric(horizontal: 20),
+          //   child: InkWell(
+          //     onTap: () {
+          //       showDialogBox(context);
+          //     },
+          //     child: Text(
+          //       'Pizza',
+          //       style: TextStyle(
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 16,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 50,
-                width: 300,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                      ),
-                      hintText: 'Search',
-                      hintStyle: TextStyle(color: Colors.grey)),
-                ),
-              ),
-              Text(
-                'Sort',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "My Products",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-          ),
-          SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 50,
-                    crossAxisSpacing: 10),
-                itemBuilder: (ctx, i) => InkWell(
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => Product_detail()));
+                    showDialogBox(context);
                   },
-                  child: Card(
-                    elevation: 5,
-                    // color: white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            child: Image.asset(
-                              'asset/sss.png',
-                              fit: BoxFit.cover,
-                              height: 120,
-                              width: double.infinity,
-                            )),
-                        Text(
-                          'Chicken Burger\n\$ 450.00',
-                          style: TextStyle(fontSize: 12, color: Colors.black),
-                        )
-                      ],
+                  child: Text(
+                    'All Products',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
                 ),
-              ))
-        ]),
-      )),
+              ),
+              // GestureDetector(
+              //   //  Show All Categories Product
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (builder) => ShowAll(
+              //               cetagory: 'laptop',
+              //             )));
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.symmetric(horizontal: 20),
+              //     child: Text(
+              //       'Show all',
+              //       style: TextStyle(
+              //           color: HexColor('#006EEE'),
+              //           fontSize: 13,
+              //           fontWeight: FontWeight.bold),
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: SizedBox(
+              height: 228,
+              width: MediaQuery.of(context).size.width,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('foodcategory')
+                    .
+                    // where('isActive',isNotEqualTo: true)
+                    where('cetagory', whereNotIn: ['burgers', 'pizza'])
+                    .where("isActive", isEqualTo: true)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.data!.size == 0) {
+                    return Center(child: Text("Emphty"));
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Error Accurred"));
+                  } else if (snapshot.hasData) {
+                    return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot ds = snapshot.data!.docs[index];
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            color: Colors.white,
+                            elevation: 5,
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    //  margin: EdgeInsets.only(bottom: 80),
+                                    height: Size.height * 0.12,
+                                    width: Size.width * 0.5,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                            image: NetworkImage(ds['imageUrl'],
+                                                scale: 8),
+                                            fit: BoxFit.cover)),
+                                    child: GestureDetector(
+                                      /// DEscription Detail Of Products
+                                      onTap: () {
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (builder) =>
+                                        //             ProductOverview(
+                                        //               cetagory: ds['cetagory'],
+                                        //               description:
+                                        //                   ds['description'],
+                                        //               imageUrl: ds['imageUrl'],
+                                        //               price: ds['price'],
+                                        //               title: ds['title'],
+                                        //               type: ds['subcetagory'],
+                                        //             )));
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        top: 7, bottom: 2, left: 10),
+                                    child: Text(
+                                      ds['title'] + " " + ds['category'],
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                    ),
+                                    child: Text(
+                                      ds['subcategory'],
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 13),
+                                    ),
+                                  ),
+
+                                  ////EDit Producrts
+                                  // GestureDetector(
+                                  //   onTap: () {
+                                  //     Navigator.push(
+                                  //         context,
+                                  //         MaterialPageRoute(
+                                  //             builder: (builder) => EditProduct(
+                                  //                   docId: ds.id,
+                                  //                   cetagory: ds['cetagory'],
+                                  //                   description:
+                                  //                       ds['description'],
+                                  //                   imageUrl: ds['imageUrl'],
+                                  //                   price: ds['price'],
+                                  //                   title: ds['title'],
+                                  //                   type: ds['subcetagory'],
+                                  //                 )));
+                                  //   },
+                                  //   child: Container(
+                                  //     height: 20,
+                                  //     width: 20,
+                                  //     margin: const EdgeInsets.only(
+                                  //         left: 175, bottom: 5),
+                                  //     child: Image.asset('assets/edit.png'),
+                                  //   ),
+                                  // )
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  }
+                  return Center(
+                      child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ));
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
