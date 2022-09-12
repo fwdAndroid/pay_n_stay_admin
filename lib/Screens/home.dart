@@ -4,6 +4,7 @@ import 'package:pay_n_stay_admin/Screens/login.dart';
 import 'package:pay_n_stay_admin/Screens/orders/orders.dart';
 import 'package:pay_n_stay_admin/Screens/product_detail.dart';
 import 'package:pay_n_stay_admin/Utils/utils.dart';
+import 'package:pay_n_stay_admin/add/add_food_product.dart';
 import 'package:pay_n_stay_admin/edit/edit_food_category.dart';
 import 'package:pay_n_stay_admin/resources/firestore_methods.dart';
 
@@ -32,7 +33,10 @@ class _HomeState extends State<Home> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (builder) => AddFoodProduct()));
+        },
         child: Icon(
           Icons.add,
           color: Colors.black,

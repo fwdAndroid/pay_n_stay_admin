@@ -72,4 +72,20 @@ class FirestoreMethods {
       });
     }
   }
+  //Save Food item data
+  void saveData({String? price,String? type,String? cetagory,String? subcetagory,String? title,String? description,String? imageUrl  }){
+    _firebaseFirestore.collection('foodcategory').add({
+ 'imageUrl':imageUrl ,
+ 'price':price,
+      'cetagory' :cetagory,
+      'subcetagory':subcetagory
+      , 'title':title,
+ 'description':description,
+      'isActive':true,
+      'fav':false
+
+    }).catchError((e){
+      print(e);
+    });
+  }
 }
