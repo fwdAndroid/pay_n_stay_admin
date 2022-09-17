@@ -10,6 +10,7 @@ import 'package:pay_n_stay_admin/add/add_food_product.dart';
 import 'package:pay_n_stay_admin/edit/edit_food_category.dart';
 import 'package:pay_n_stay_admin/edit/edit_food_item.dart';
 import 'package:pay_n_stay_admin/resources/firestore_methods.dart';
+import 'package:pay_n_stay_admin/show/show.dart';
 
 import '../Utils/colors.dart';
 
@@ -146,8 +147,10 @@ class _HomeState extends State<Home> {
               )),
           IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => LoginAdmin()));
+                FirebaseAuth.instance.signOut().then((value) => {
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (builder) => LoginAdmin()))
+                    });
               },
               icon: Icon(
                 Icons.logout,
@@ -172,27 +175,7 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          // GestureDetector(
-          //   //  Show All Categories Product
-          //   onTap: () {
-          //     // Navigator.push(
-          //     //     context,
-          //     //     MaterialPageRoute(
-          //     //         builder: (builder) => ShowAll(
-          //     //               cetagory: 'fastfood',
-          //     //             )));
-          //   },
-          //   child: Container(
-          //     margin: EdgeInsets.symmetric(horizontal: 20),
-          //     child: Text(
-          //       'Show all',
-          //       style: TextStyle(
-          //           color: Colors.black,
-          //           fontSize: 13,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //   ),
-          // ),
+
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: SizedBox(
@@ -243,21 +226,7 @@ class _HomeState extends State<Home> {
                                           fit: BoxFit.cover)),
                                   child: GestureDetector(
                                     /// DEscription Detail Of Products
-                                    onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (builder) =>
-                                      //             ProductOverview(
-                                      //               cetagory: ds['cetagory'],
-                                      //               description:
-                                      //                   ds['description'],
-                                      //               imageUrl: ds['imageUrl'],
-                                      //               price: ds['price'],
-                                      //               title: ds['title'],
-                                      //               type: ds['subcetagory'],
-                                      //             )));
-                                    },
+                                    onTap: () {},
                                   ),
                                 ),
                                 Container(
@@ -286,7 +255,24 @@ class _HomeState extends State<Home> {
                                 Row(
                                   children: [
                                     TextButton(
-                                        onPressed: () {}, child: Text("View")),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (builder) =>
+                                                      ProductOverview(
+                                                        cetagory:
+                                                            ds['cetagory'],
+                                                        description:
+                                                            ds['description'],
+                                                        imageUrl:
+                                                            ds['imageUrl'],
+                                                        price: ds['price'],
+                                                        title: ds['title'],
+                                                        type: ds['subcetagory'],
+                                                      )));
+                                        },
+                                        child: Text("View")),
                                     TextButton(
                                       child: Text("Edit"),
                                       onPressed: () {
@@ -452,23 +438,24 @@ class _HomeState extends State<Home> {
                                 Row(
                                   children: [
                                     TextButton(
-                                        child: Text("Show"),
                                         onPressed: () {
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (builder) =>
-                                          //             EditFoodItem(
-                                          //               docId: ds.id,
-                                          //               category: ds['cetagory'],
-                                          //               description:
-                                          //                   ds['description'],
-                                          //               imageUrl: ds['imageUrl'],
-                                          //               price: ds['price'],
-                                          //               title: ds['title'],
-                                          //               type: ds['subcetagory'],
-                                          //             )));
-                                        }),
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (builder) =>
+                                                      ProductOverview(
+                                                        cetagory:
+                                                            ds['cetagory'],
+                                                        description:
+                                                            ds['description'],
+                                                        imageUrl:
+                                                            ds['imageUrl'],
+                                                        price: ds['price'],
+                                                        title: ds['title'],
+                                                        type: ds['subcetagory'],
+                                                      )));
+                                        },
+                                        child: Text("View")),
                                     TextButton(
                                       child: Text("Edit"),
                                       onPressed: () {
@@ -519,31 +506,11 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          // GestureDetector(
-          //   //  Show All Categories Product
-          //   onTap: () {
-          //     // Navigator.push(
-          //     //     context,
-          //     //     MaterialPageRoute(
-          //     //         builder: (builder) => ShowAll(
-          //     //               cetagory: 'laptop',
-          //     //             )));
-          //   },
-          //   child: Container(
-          //     margin: EdgeInsets.symmetric(horizontal: 20),
-          //     child: Text(
-          //       'Show all',
-          //       style: TextStyle(
-          //           color: Colors.black,
-          //           fontSize: 13,
-          //           fontWeight: FontWeight.bold),
-          //     ),
-          //   ),
-          // ),
+
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height / 4.4,
+              height: MediaQuery.of(context).size.height / 4.2,
               width: MediaQuery.of(context).size.width,
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -633,24 +600,24 @@ class _HomeState extends State<Home> {
                                 Row(
                                   children: [
                                     TextButton(
-                                      child: Text("Show"),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (builder) =>
-                                                    EditFoodItem(
-                                                      docId: ds.id,
-                                                      category: ds['cetagory'],
-                                                      description:
-                                                          ds['description'],
-                                                      imageUrl: ds['imageUrl'],
-                                                      price: ds['price'],
-                                                      title: ds['title'],
-                                                      type: ds['subcetagory'],
-                                                    )));
-                                      },
-                                    ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (builder) =>
+                                                      ProductOverview(
+                                                        cetagory:
+                                                            ds['cetagory'],
+                                                        description:
+                                                            ds['description'],
+                                                        imageUrl:
+                                                            ds['imageUrl'],
+                                                        price: ds['price'],
+                                                        title: ds['title'],
+                                                        type: ds['subcetagory'],
+                                                      )));
+                                        },
+                                        child: Text("View")),
                                     TextButton(
                                       child: Text("Edit"),
                                       onPressed: () {
