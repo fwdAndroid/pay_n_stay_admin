@@ -47,7 +47,9 @@ class FirestoreMethods {
       _firebaseFirestore
           .collection("categories")
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection("categorylist").doc(docid).update({
+          .collection("categorylist")
+          .doc(docid)
+          .update({
         'category': cetagory?.toLowerCase(),
         'subcategory': subcetagory?.toLowerCase(),
       }).catchError((e) {
@@ -72,19 +74,58 @@ class FirestoreMethods {
       });
     }
   }
-  //Save Food item data
-  void saveData({String? price,String? type,String? cetagory,String? subcetagory,String? title,String? description,String? imageUrl  }){
-    _firebaseFirestore.collection('foodcategory').add({
- 'imageUrl':imageUrl ,
- 'price':price,
-      'cetagory' :cetagory,
-      'subcetagory':subcetagory
-      , 'title':title,
- 'description':description,
-      'isActive':true,
-      'fav':false
 
-    }).catchError((e){
+  //Save Food item data
+  void saveData(
+      {String? price,
+      String? type,
+      String? cetagory,
+      String? subcetagory,
+      String? title,
+      String? description,
+      String? imageUrl}) {
+    FirebaseFirestore.instance
+        .collection("FoodsItems")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('foodcategory')
+        .add({
+      'imageUrl': imageUrl,
+      'price': price,
+      'cetagory': cetagory,
+      'subcetagory': subcetagory,
+      'title': title,
+      'description': description,
+      'isActive': true,
+      'fav': false
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  //Edit
+  void updateData(
+      {String? price,
+      String? cetagory,
+      String? subcetagory,
+      String? title,
+      String? description,
+      String? imageUrl,
+      required String docid}) {
+   FirebaseFirestore.instance
+        .collection("FoodsItems")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('foodcategory')
+        .doc(docid)
+        .update({
+       'imageUrl': imageUrl,
+      'price': price,
+      'cetagory': cetagory,
+      'subcetagory': subcetagory,
+      'title': title,
+      'description': description,
+      'isActive': true,
+      'fav': false
+    }).catchError((e) {
       print(e);
     });
   }
