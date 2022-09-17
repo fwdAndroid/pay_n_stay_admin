@@ -550,8 +550,8 @@ class _HomeState extends State<Home> {
                     .collection("FoodsItems")
                     .doc(FirebaseAuth.instance.currentUser!.uid)
                     .collection('foodcategory')
-                    .where('cetagory', isNotEqualTo: 'continental,fastfood')
-                    .where("isActive", isEqualTo: false)
+                    .where('cetagory', isNotEqualTo: '[fastfood,continental]')
+                    .where("isActive", isEqualTo: true)
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.data == null) {
